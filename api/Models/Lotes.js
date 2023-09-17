@@ -28,7 +28,18 @@ const Lotes = mongoose.model('Lote', {
         cod: Number,
         lote: Number,
         quadra: Number,
-        valor: Number
+        valor: Number,
+        status: Boolean,
+        bairro: String,
+        municipio: String,
+        desc: {
+            area: Number,
+            topografia:String,
+            agua: Boolean,
+            luz: Boolean,
+            asfalto: Boolean
+
+        }
         
         
         /* localizacao: {

@@ -34,6 +34,7 @@ try {
 app.get('/users', UsuariosController.getUsers )
 app.get('/financeiro', FinanceiroController.getFinanceiro )
 app.get('/lotes', LotesController.getlotes )
+app.get('/buscar-lotes', LotesController.buscarLotesRelacionados )
 
 app.post('/users', UsuariosController.addUser )
 app.post('/financeiro', FinanceiroController.addFinanceiro )
@@ -45,5 +46,5 @@ app.delete('/lotes/:id', LotesController.deleteLotes )
 
 app.put('/users/:id', UsuariosController.editUser)
 app.put('/financeiro/:id', FinanceiroController.editFinanceiro)
-app.put('/lotes', LotesController.putLotes )
-app.put('/lote-vendido/:cod', LotesController.venderLote )
+app.put('/lotes/:id', LotesController.putLotes )
+app.put('/lotes/:id', LotesController.venderLote )

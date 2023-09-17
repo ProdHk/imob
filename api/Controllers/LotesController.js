@@ -15,11 +15,25 @@ async function getlotes(req, res){
         }
 }
 
+async function buscarLotesRelacionados(req, res){
+    const {municipio} = req.body
+
+    try {
+
+         const lotes = await Lotes.find({municipio}).then((i) =>{ return i})
+        console.log(`Lote encontrado`, lotes)
+        res.status(200).json({msg: `${lotes.length > 1 ? `${lotes.length} lotes foram encontrados` : `${lotes.length} lote foi encotrado`}`,lotes })
+    } catch (error) {
+        console.log(`Algo de errado aconteceu`)
+        res.status(500).json({msg:`Algo de errado aconteceu`})
+    }
+}
+
 
 async function postLotes(req, res){
 
-    const {cod,lote, quadra, valor, status} = req.body
-    const newLote = {cod, lote, quadra, valor, status}
+    const {cod,lote, quadra, valor,bairro, municipio, desc} = req.body
+    const newLote = {cod, lote, quadra, valor, status:false, bairro, municipio, desc, path:"vazio"}
     try {
         await Lotes.create(newLote)
         console.log(`Lote cadastrado com sucesso!`)
@@ -31,11 +45,12 @@ async function postLotes(req, res){
     }
 }
 async function putLotes(req, res){
-    const cod = req.params
-    const {lote, quadra, valor, status} = req.body
-    const editedLote = {cod, lote, quadra, valor, status}
+
+    const id = req.params.id
+    const {lote, quadra, valor,  bairro, municipio} = req.body
+    const editedLote = {lote, quadra, valor, bairro, municipio}
         try {
-            Lotes.findByIdAndUpdate(cod, editedLote)
+            Lotes.findByIdAndUpdate(id, editedLote)
             console.log(`O lote foi editato com sucesso!`)
             res.status(200).json({msg:`O lote foi editato com sucesso!`})
         } catch (error) {
@@ -64,7 +79,7 @@ async function deleteLotes(req, res){
     const id = req.params.id
     console.log(id)
     try {
-        await Lotes.findByIdAndDelete(ObjectId(id))
+        await Lotes.findByIdAndDelete(id)
         console.log(`O lote foi deletado com sucesso!`)
         res.status(200).json({msg:`O lote foi deletado com sucesso!`})
     } catch (error) {
@@ -79,5 +94,6 @@ module.exports  = {
     postLotes,
     putLotes,
     venderLote,
-    deleteLotes
+    deleteLotes,
+    buscarLotesRelacionados
 }
